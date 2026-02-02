@@ -325,6 +325,7 @@ import {
   Bell,
   Search,
   MoreVertical,
+  Plus,                    // ← this fixes the error
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
