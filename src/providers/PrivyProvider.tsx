@@ -1,6 +1,42 @@
+// 'use client';
+
+// import { PrivyProvider } from '@privy-io/react-auth';
+// import { useRouter } from 'next/navigation';
+
+// export default function Providers({ children }: { children: React.ReactNode }) {
+//   const router = useRouter();
+
+//   return (
+//     <PrivyProvider
+//       appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID as string}
+//       onLogin={(user) => {
+//         console.log(`user ${user.id} logged in!`);
+//   // Using window.location.assign ensures the browser 
+//   // fully commits the login state to the /feed page.
+//   window.location.assign('/feed');
+//       }}
+//       config={{
+//         appearance: {
+//           theme: 'dark',
+//           accentColor: '#FFFFFF',
+//           showWalletLoginFirst: false, // Keeps it focused on "Grandmother Test" logins
+//         },
+//         embeddedWallets: {
+//           createOnLogin: 'users-without-wallets',
+//         },
+//         loginMethods: ['google', 'email', 'phone'],
+//       }}
+//     >
+//       {children}
+//     </PrivyProvider>
+//   );
+// }
+
+
 'use client';
 
 import { PrivyProvider } from '@privy-io/react-auth';
+import { User } from '@privy-io/react-auth';   // ← import the User type
 import { useRouter } from 'next/navigation';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
@@ -9,22 +45,28 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <PrivyProvider
       appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID as string}
-      onLogin={(user) => {
-        console.log(`user ${user.id} logged in!`);
-  // Using window.location.assign ensures the browser 
-  // fully commits the login state to the /feed page.
-  window.location.assign('/feed');
-      }}
       config={{
         appearance: {
           theme: 'dark',
           accentColor: '#FFFFFF',
-          showWalletLoginFirst: false, // Keeps it focused on "Grandmother Test" logins
+          showWalletLoginFirst: false,
         },
         embeddedWallets: {
           createOnLogin: 'users-without-wallets',
         },
         loginMethods: ['google', 'email', 'phone'],
+      }}
+      onLogin={(user: User | null) => {
+        if (!user) {
+          console.warn('Login callback received null user');
+          return;
+        }
+
+        console.log(`User logged in: ${user.id} (${user.email || user.google?.email || 'no email'})`);
+
+        // Use window.location.assign for reliable redirect after login
+        // (avoids React Router issues during auth state change)
+        window.location.assign('/feed');
       }}
     >
       {children}
