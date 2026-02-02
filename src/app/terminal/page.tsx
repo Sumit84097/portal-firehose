@@ -415,7 +415,7 @@ export default function Terminal() {
     sizeBytes: number;
   } | null>(null);
   const [exportingData, setExportingData] = useState(false);
-  const [exportingKey, setExportingKey] = useState(false); // Fixed: was missing
+  const [exportingKey, setExportingKey] = useState(false);
   const [keyExportStatus, setKeyExportStatus] = useState<string | null>(null);
   const [showKeyConfirm, setShowKeyConfirm] = useState(false);
 
@@ -526,7 +526,6 @@ export default function Terminal() {
     }
   };
 
-  // Fixed Verify function – force string conversion
   const verifySignature = async () => {
     if (!verifyMessageInput || !verifySignatureInput || !verifyAddressInput) {
       setVerifyResult(null);
@@ -537,21 +536,17 @@ export default function Terminal() {
     setVerifyResult(null);
 
     try {
-      // Clean inputs
       const message = verifyMessageInput.trim();
       const signature = verifySignatureInput.trim();
       const address = verifyAddressInput.trim().toLowerCase();
 
-      // Verify using viem
       const recovered = await verifyMessage({
         address: address as `0x${string}`,
         message,
         signature: signature as `0x${string}`,
       });
 
-      // Force to string and normalize case (fixes the TypeError)
       const recoveredAddress = String(recovered).toLowerCase();
-
       const isValid = recoveredAddress === address;
 
       setVerifyResult(isValid ? "success" : "fail");
@@ -603,7 +598,7 @@ export default function Terminal() {
         </p>
       </header>
 
-      {/* NEW: Show user's wallet address for easy copy-paste */}
+      {/* Wallet Address Display & Copy */}
       <div className="mb-8 p-4 bg-zinc-900 border border-cyan-500/20 rounded-xl">
         <p className="text-sm text-zinc-400 mb-2">Your wallet address (for verification):</p>
         <div className="flex items-center gap-3 flex-wrap">
@@ -613,8 +608,12 @@ export default function Terminal() {
           {user?.wallet?.address && (
             <button
               onClick={() => {
-                navigator.clipboard.writeText(user.wallet.address);
-                alert("Address copied to clipboard!");
+                if (user?.wallet?.address) {
+                  navigator.clipboard.writeText(user.wallet.address);
+                  alert("Address copied to clipboard!");
+                } else {
+                  alert("No wallet address available");
+                }
               }}
               className="p-2 bg-zinc-800 rounded hover:bg-zinc-700 transition flex items-center gap-1 text-sm"
             >
@@ -750,7 +749,7 @@ export default function Terminal() {
         )}
       </section>
 
-      {/* NEW: Signature Verification Tool */}
+      {/* Signature Verification Tool */}
       <section className="mt-12 mb-12">
         <h2 className="text-2xl font-black mb-6 uppercase tracking-wider flex items-center gap-3">
           <ShieldCheck size={24} className="text-cyan-400" />
