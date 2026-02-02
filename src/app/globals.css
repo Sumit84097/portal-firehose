@@ -3,77 +3,78 @@
 @tailwind utilities;
 
 :root {
-  --background-start: #000000;
-  --background-mid: #0f172a;    /* slate-900 / deep navy */
-  --background-end: #1e293b;    /* slate-800 */
-  --card-bg: rgba(15, 23, 42, 0.65); /* stronger semi-transparent navy */
-  --card-border: rgba(59, 130, 246, 0.18); /* blue-500/30 */
-  --accent: #3b82f6;            /* blue-500 for highlights */
+  --bg-start: #000000;
+  --bg-mid: #0f172a;      /* deep navy */
+  --bg-end: #1e293b;      /* slate-800 */
+  --card-bg: rgba(15, 23, 42, 0.75);
+  --card-border: rgba(59, 130, 246, 0.12);
+  --accent: #60a5fa;      /* blue-400 */
   --verified-gold: #fbbf24;
-  --text-muted: #94a3b8;
+  --online-green: #22c55e;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
 }
 
 body {
-  background: linear-gradient(to bottom, var(--background-start), var(--background-mid), var(--background-end));
-  color: white;
+  background: linear-gradient(to bottom, var(--bg-start), var(--bg-mid), var(--bg-end));
+  color: var(--text-primary);
   min-height: 100vh;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Glass card (strong blur + border glow) */
-@layer components {
-  .glass-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--card-border);
-    border-radius: 1.25rem; /* rounded-2xl */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-  }
+/* Premium glass card */
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
 
-  .verified-pill {
-    background: linear-gradient(90deg, #fbbf24, #f59e0b);
-    color: black;
-    font-size: 0.75rem;
-    padding: 0.125rem 0.5rem;
-    border-radius: 9999px;
-    font-weight: 600;
-    box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
-  }
+/* Verified pill - gold with glow */
+.verified-pill {
+  background: var(--verified-gold);
+  color: black;
+  font-size: 0.6875rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+}
 
-  .glow-accent {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-  }
+/* Glowing central + button */
+.glow-plus {
+  box-shadow: 0 0 30px rgba(96, 165, 250, 0.6);
+  transition: transform 0.2s ease;
+}
+.glow-plus:hover {
+  transform: scale(1.05);
+}
 
-  .action-pill {
-    background: rgba(30, 41, 59, 0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 9999px;
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #cbd5e1;
-    transition: all 0.2s;
-  }
-
-  .action-pill:hover {
-    background: rgba(59, 130, 246, 0.2);
-    color: white;
-  }
+/* Action pill */
+.action-pill {
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 9999px;
+  padding: 0.5rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 1rem 1rem;
 }
 
 /* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
 
-/* Safe area bottom padding */
+/* Safe area bottom */
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }

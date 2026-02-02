@@ -717,28 +717,28 @@ export default function PortalFeed() {
 
   if (!ready) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-indigo-950 to-purple-950 flex items-center justify-center">
-        <Loader2 className="animate-spin text-cyan-400" size={48} />
+      <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 flex items-center justify-center">
+        <Loader2 className="animate-spin text-blue-400" size={48} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-indigo-950 to-purple-950 text-white pb-safe">
-      {/* Top Bar */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-cyan-900/30 px-4 py-3">
+    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 text-white pb-safe">
+      {/* Top Bar - matches reference */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-blue-900/30 px-4 py-3">
         <div className="flex items-center justify-between max-w-screen-md mx-auto">
           <div className="flex items-center gap-3">
-            <Hexagon className="text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]" size={32} />
-            <span className="text-2xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            <Hexagon className="text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" size={32} />
+            <span className="text-2xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               PORTAL
             </span>
           </div>
           <div className="flex items-center gap-5">
-            <button className="text-cyan-300 hover:text-white transition-colors">
+            <button className="text-blue-300 hover:text-white transition-colors">
               <Search size={24} />
             </button>
-            <button className="text-cyan-300 hover:text-white transition-colors relative">
+            <button className="text-blue-300 hover:text-white transition-colors relative">
               <Bell size={24} />
               <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></span>
             </button>
@@ -746,13 +746,13 @@ export default function PortalFeed() {
         </div>
       </header>
 
-      {/* Feed */}
+      {/* Feed - glass cards with premium feel */}
       <main className="pt-20 px-3 max-w-screen-md mx-auto space-y-6">
         {posts.length === 0 && !loading && (
-          <div className="text-center py-32 text-cyan-200/60">
-            <Hexagon size={64} className="mx-auto mb-6 opacity-50 animate-pulse" />
-            <p className="text-xl font-medium">Nothing in the feed yet...</p>
-            <p className="mt-2">Create your first moment in Studio</p>
+          <div className="text-center py-32 text-slate-400">
+            <Hexagon size={64} className="mx-auto mb-6 opacity-40 animate-pulse" />
+            <p className="text-xl font-medium">The feed is quiet...</p>
+            <p className="mt-2">Create your first moment</p>
           </div>
         )}
 
@@ -762,7 +762,7 @@ export default function PortalFeed() {
                           post.content_url?.toLowerCase().endsWith('.mov');
 
           const author = {
-            name: post.author_name || "Anonymous Creator",
+            name: post.author_name || "Anonymous",
             handle: post.author_did?.slice(-8) || "@unknown",
             avatar: post.author_avatar || null,
             verified: true,
@@ -774,7 +774,7 @@ export default function PortalFeed() {
               key={post.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass-card overflow-hidden"
+              className="glass-card"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-4 pt-4 pb-2">
@@ -784,27 +784,27 @@ export default function PortalFeed() {
                       <img
                         src={author.avatar}
                         alt={author.name}
-                        className="w-11 h-11 rounded-full object-cover ring-2 ring-blue-500/40 ring-offset-2 ring-offset-black"
+                        className="w-11 h-11 rounded-full object-cover ring-2 ring-blue-500/30 ring-offset-2 ring-offset-black"
                       />
                     ) : (
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center ring-2 ring-blue-500/40 ring-offset-2 ring-offset-black">
-                        <UserIcon size={22} className="text-cyan-300" />
+                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center ring-2 ring-blue-500/30 ring-offset-2 ring-offset-black">
+                        <UserIcon size={22} className="text-blue-300" />
                       </div>
                     )}
 
-                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-500 rounded-full border-2 border-black" />
+                    <div className="online-dot absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-black" />
                   </div>
 
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-base">{author.name}</span>
                       {author.verified && (
-                        <span className="verified-badge">
+                        <span className="verified-pill">
                           Verified by Project I
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-cyan-200/70 flex items-center gap-1.5">
+                    <div className="text-xs text-slate-400 flex items-center gap-1.5">
                       <span>@{author.handle}</span>
                       <span>•</span>
                       <span>{author.time}</span>
@@ -812,7 +812,7 @@ export default function PortalFeed() {
                   </div>
                 </div>
 
-                <button className="text-gray-400 hover:text-cyan-300">
+                <button className="text-slate-400 hover:text-white">
                   <MoreVertical size={20} />
                 </button>
               </div>
@@ -830,8 +830,8 @@ export default function PortalFeed() {
                         playsInline
                         preload="metadata"
                       />
-                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/70 via-transparent to-transparent">
-                        <Play size={72} className="text-white opacity-90 drop-shadow-2xl" />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                        <Play size={64} className="text-white opacity-90 drop-shadow-xl" />
                       </div>
                     </div>
                   ) : (
@@ -846,30 +846,30 @@ export default function PortalFeed() {
 
               {/* Caption */}
               {post.caption && (
-                <p className="px-4 py-3 text-[15px] leading-relaxed text-gray-100">
+                <p className="px-4 py-3 text-[15px] leading-relaxed text-slate-100">
                   {post.caption}
                 </p>
               )}
 
-              {/* Actions Bar */}
-              <div className="action-pill mx-4 my-3 flex items-center justify-between">
-                <div className="flex items-center gap-6">
-                  <button className="flex items-center gap-1.5 text-gray-300 hover:text-pink-400">
+              {/* Action Pill */}
+              <div className="action-bar mx-4 my-3">
+                <div className="flex items-center gap-8">
+                  <button className="flex items-center gap-2 text-slate-300 hover:text-pink-400 transition-colors">
                     <Heart size={22} />
-                    <span className="text-sm">4.2k</span>
+                    <span className="text-sm font-medium">4.2k</span>
                   </button>
-                  <button className="flex items-center gap-1.5 text-gray-300 hover:text-blue-400">
+                  <button className="flex items-center gap-2 text-slate-300 hover:text-blue-400 transition-colors">
                     <MessageCircle size={22} />
-                    <span className="text-sm">128</span>
+                    <span className="text-sm font-medium">128</span>
                   </button>
-                  <button className="flex items-center gap-1.5 text-gray-300 hover:text-green-400">
+                  <button className="flex items-center gap-2 text-slate-300 hover:text-green-400 transition-colors">
                     <Share2 size={22} />
                   </button>
                 </div>
 
-                <button className="flex items-center gap-1.5 text-gray-300 hover:text-purple-400">
+                <button className="flex items-center gap-2 text-slate-300 hover:text-purple-400 transition-colors">
                   <Diamond size={22} />
-                  <span className="text-sm">Tip</span>
+                  <span className="text-sm font-medium">Tip</span>
                 </button>
               </div>
             </motion.article>
@@ -878,52 +878,52 @@ export default function PortalFeed() {
 
         {loading && (
           <div className="flex justify-center py-16">
-            <Loader2 className="animate-spin text-cyan-400" size={48} />
+            <Loader2 className="animate-spin text-blue-400" size={48} />
           </div>
         )}
 
         {!hasMore && posts.length > 0 && (
-          <p className="text-center text-cyan-200/50 py-12">You're all caught up</p>
+          <p className="text-center text-slate-400 py-12">You're all caught up</p>
         )}
 
         <div ref={loaderRef} className="h-32" />
       </main>
 
-      {/* Bottom Nav */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-2xl border-t border-cyan-900/30 z-50 pb-safe">
+      {/* Bottom Nav - glowing central + */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-2xl border-t border-blue-900/30 z-50 pb-safe">
         <div className="max-w-screen-md mx-auto flex justify-around items-center py-4">
-          <Link href="/" className="flex flex-col items-center text-cyan-400">
+          <Link href="/" className="flex flex-col items-center text-blue-400">
             <Home size={28} />
-            <span className="text-xs mt-1">Home</span>
+            <span className="text-xs mt-1 font-medium">Home</span>
           </Link>
 
-          <Link href="/explore" className="flex flex-col items-center text-gray-300 hover:text-cyan-300">
+          <Link href="/explore" className="flex flex-col items-center text-slate-300 hover:text-blue-300">
             <Compass size={28} />
-            <span className="text-xs mt-1">Explore</span>
+            <span className="text-xs mt-1 font-medium">Explore</span>
           </Link>
 
           <Link href="/studio" className="relative -mt-14">
-            <div className="w-20 h-20 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center glow-cyan">
+            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center glow-plus animate-pulse-slow">
               <Plus size={40} className="text-white" />
             </div>
           </Link>
 
-          <Link href="/alerts" className="flex flex-col items-center text-gray-300 hover:text-cyan-300">
+          <Link href="/alerts" className="flex flex-col items-center text-slate-300 hover:text-blue-300">
             <Bell size={28} />
-            <span className="text-xs mt-1">Alerts</span>
+            <span className="text-xs mt-1 font-medium">Alerts</span>
           </Link>
 
-          <Link href="/profile" className="flex flex-col items-center text-gray-300 hover:text-cyan-300">
+          <Link href="/profile" className="flex flex-col items-center text-slate-300 hover:text-blue-300">
             {user && user.google && typeof (user.google as any).picture === 'string' ? (
               <img
                 src={(user.google as any).picture}
                 alt="You"
-                className="w-8 h-8 rounded-full object-cover ring-2 ring-cyan-500/50"
+                className="w-8 h-8 rounded-full object-cover ring-2 ring-blue-500/50"
               />
             ) : (
               <UserIcon size={28} />
             )}
-            <span className="text-xs mt-1">You</span>
+            <span className="text-xs mt-1 font-medium">You</span>
           </Link>
         </div>
       </nav>
