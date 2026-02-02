@@ -13,30 +13,23 @@
   --text-muted: #9ca3af;
 }
 
-body {
-  @apply bg-gradient-to-b from-black via-indigo-950 to-purple-950 text-white min-h-screen;
-  font-family: 'Inter', system-ui, sans-serif;
-}
+/* Glassmorphism reusable class */
+@layer components {
+  .glass {
+    @apply bg-gray-900/60 backdrop-blur-xl border border-cyan-900/30 shadow-2xl shadow-cyan-900/20 rounded-3xl;
+  }
 
-.glass {
-  background: rgba(17, 24, 39, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(34, 211, 238, 0.2);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
+  .glow-cyan {
+    @apply shadow-[0_0_20px_rgba(34,211,238,0.3)];
+  }
 
-.glow-cyan {
-  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
-}
+  .verified-badge {
+    @apply bg-gradient-to-r from-yellow-500 to-amber-600 text-black text-xs px-2.5 py-0.5 rounded-full font-medium shadow-md;
+  }
 
-.verified-badge {
-  background: linear-gradient(to right, #fbbf24, #f59e0b);
-  color: black;
-  font-weight: 600;
-}
-
-.animate-pulse-slow {
-  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
 }
 
 @keyframes pulse {
