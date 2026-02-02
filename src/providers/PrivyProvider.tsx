@@ -35,12 +35,21 @@
 
 'use client';
 
-import { PrivyProvider } from '@privy-io/react-auth';
-import { User } from '@privy-io/react-auth';
+import { PrivyProvider, useLogin } from '@privy-io/react-auth';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const { login, user } = useLogin();
+
+  // Redirect after successful login
+  useEffect(() => {
+    if (user) {
+      console.log(`User logged in: ${user.id} (${user.email || user.google?.email || 'no email'})`);
+      router.replace('/feed');
+    }
+  }, [user, router]);
 
   return (
     <PrivyProvider
@@ -56,18 +65,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             createOnLogin: 'users-without-wallets',
           },
         },
-        loginMethods: ['google', 'email', 'sms'],  // ← changed 'phone' → 'sms'
-      }}
-      onLogin={(user: User | null) => {
-        if (!user) {
-          console.warn('Login callback received null user');
-          return;
-        }
-
-        console.log(`User logged in: ${user.id} (${user.email || user.google?.email || 'no email'})`);
-
-        // Reliable full-page redirect after login
-        window.location.assign('/feed');
+        loginMethods: ['google', 'email', 'sms'],
       }}
     >
       {children}
