@@ -6,7 +6,7 @@
   --bg-start: #000814;
   --bg-mid: #001233;
   --bg-end: #001845;
-  --card: rgba(1, 18, 51, 0.78);
+  --card-bg: rgba(1, 18, 51, 0.78);
   --card-border: rgba(96, 165, 250, 0.12);
   --accent: #60a5fa;
   --verified: #fbbf24;
@@ -24,7 +24,7 @@ body {
 
 /* Floating glass post – no borders, strong blur */
 .glass-post {
-  background: var(--card);
+  background: var(--card-bg);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: none;
@@ -34,7 +34,7 @@ body {
   overflow: hidden;
 }
 
-/* Verified pill – gold, clean, subtle shadow */
+/* Verified pill – clean gold */
 .verified-pill {
   background: var(--verified);
   color: black;
@@ -45,7 +45,7 @@ body {
   box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
 }
 
-/* Online dot – exact green */
+/* Online dot */
 .online-dot {
   position: absolute;
   bottom: 2px;
@@ -57,7 +57,7 @@ body {
   border-radius: 50%;
 }
 
-/* Action pill – sleek, translucent */
+/* Action pill – sleek & translucent */
 .action-pill {
   background: rgba(1, 18, 51, 0.85);
   backdrop-filter: blur(16px);
@@ -74,12 +74,11 @@ body {
 .glow-plus {
   background: linear-gradient(145deg, #3b82f6, #60a5fa);
   box-shadow: 0 12px 40px rgba(59, 130, 246, 0.5);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 .glow-plus:active {
   transform: scale(0.95);
-  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
 }
 
 /* Full-bleed media */
@@ -90,15 +89,15 @@ body {
 }
 
 /* Hide scrollbar */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
-/* Safe area for bottom nav */
+/* Safe area */
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }
