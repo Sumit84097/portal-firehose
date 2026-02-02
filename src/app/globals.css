@@ -22,7 +22,7 @@ body {
   font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* Premium floating glass – very strong blur like Aether */
+/* Strong glass post – floating panel like Aether */
 .glass-post {
   background: var(--card);
   backdrop-filter: blur(24px);
@@ -30,10 +30,11 @@ body {
   border: 1px solid var(--card-border);
   border-radius: 1.5rem;
   overflow: hidden;
-  margin: 0 1rem 2rem;
+  margin: 0 1rem 2.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
 }
 
-/* Verified pill – exact gold style */
+/* Verified pill – gold, clean, subtle shadow */
 .verified-pill {
   background: var(--verified);
   color: black;
@@ -44,7 +45,7 @@ body {
   box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
 }
 
-/* Online dot */
+/* Online dot – exact green */
 .online-dot {
   position: absolute;
   bottom: 2px;
@@ -52,11 +53,11 @@ body {
   width: 11px;
   height: 11px;
   background: var(--online);
-  border: 2px solid #001233;
+  border: 2px solid var(--bg-mid);
   border-radius: 50%;
 }
 
-/* Action pill – sleek, translucent like reference */
+/* Action pill – sleek, translucent, centered */
 .action-pill {
   background: rgba(1, 18, 51, 0.85);
   backdrop-filter: blur(16px);
@@ -65,7 +66,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0.75rem 1rem 1.25rem;
+  margin: 0.75rem 1.25rem 1.25rem;
   border: 1px solid rgba(96, 165, 250, 0.08);
 }
 
@@ -73,11 +74,12 @@ body {
 .glow-plus {
   background: linear-gradient(145deg, #3b82f6, #60a5fa);
   box-shadow: 0 12px 40px rgba(59, 130, 246, 0.5);
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .glow-plus:active {
   transform: scale(0.95);
+  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
 }
 
 /* Hide scrollbar */
@@ -89,7 +91,7 @@ body {
   scrollbar-width: none;
 }
 
-/* Safe area bottom nav */
+/* Safe area for bottom nav */
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }

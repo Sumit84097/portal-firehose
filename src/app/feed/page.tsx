@@ -725,7 +725,7 @@ export default function PortalFeed() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 text-white pb-safe">
-      {/* Top Bar – matches reference top bar */}
+      {/* Top Bar – exact match to reference */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-blue-900/30 px-4 py-3">
         <div className="flex items-center justify-between max-w-screen-md mx-auto">
           <div className="flex items-center gap-3">
@@ -746,13 +746,13 @@ export default function PortalFeed() {
         </div>
       </header>
 
-      {/* Feed – content-first, no heavy boxes */}
+      {/* Feed – cinematic, edge-to-edge, glass floating posts */}
       <main className="pt-20 px-0 max-w-screen-md mx-auto space-y-10">
         {posts.length === 0 && !loading && (
           <div className="text-center py-32 text-slate-400">
             <Hexagon size={64} className="mx-auto mb-6 opacity-40 animate-pulse" />
-            <p className="text-xl font-medium">The feed is empty...</p>
-            <p className="mt-2">Be the first to share</p>
+            <p className="text-xl font-medium">The feed is quiet...</p>
+            <p className="mt-2">Create your first moment</p>
           </div>
         )}
 
@@ -774,7 +774,7 @@ export default function PortalFeed() {
               key={post.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass-card mb-12"
+              className="glass-post"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-4 pt-4 pb-2">
@@ -851,7 +851,7 @@ export default function PortalFeed() {
                 </p>
               )}
 
-              {/* Action Pill – exact match to reference */}
+              {/* Action Pill */}
               <div className="action-bar">
                 <div className="flex items-center gap-8">
                   <button className="flex items-center gap-2 text-slate-300 hover:text-pink-400 transition-colors">
@@ -889,7 +889,7 @@ export default function PortalFeed() {
         <div ref={loaderRef} className="h-32" />
       </main>
 
-      {/* Bottom Nav – clean & native */}
+      {/* Bottom Nav */}
       <nav className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-2xl border-t border-blue-900/30 z-50 pb-safe">
         <div className="max-w-screen-md mx-auto flex justify-around items-center py-4">
           <Link href="/" className="flex flex-col items-center text-blue-400">
