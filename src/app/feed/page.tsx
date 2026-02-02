@@ -724,11 +724,11 @@ export default function PortalFeed() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 text-white pb-safe">
-      {/* Top Bar */}
+      {/* Top Bar – clean & premium */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-blue-900/30 px-4 py-3">
         <div className="flex items-center justify-between max-w-screen-md mx-auto">
           <div className="flex items-center gap-3">
-            <Hexagon className="text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" size={32} />
+            <Diamond className="text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" size={32} />
             <span className="text-2xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               PORTAL
             </span>
@@ -741,11 +741,14 @@ export default function PortalFeed() {
               <Bell size={24} />
               <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></span>
             </button>
+            <button className="text-blue-300 hover:text-white transition-colors">
+              <MoreVertical size={24} />
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Feed – cinematic, immersive */}
+      {/* Feed – cinematic, immersive, no heavy boxes */}
       <main className="pt-20 px-0 max-w-screen-md mx-auto space-y-10">
         {posts.length === 0 && !loading && (
           <div className="text-center py-32 text-slate-400">
@@ -816,9 +819,9 @@ export default function PortalFeed() {
                 </button>
               </div>
 
-              {/* Media – edge-to-edge */}
+              {/* Media – full bleed */}
               {post.signed_url && (
-                <div className="media-full-bleed">
+                <div className="w-full">
                   {isVideo ? (
                     <div className="relative">
                       <video
@@ -851,7 +854,7 @@ export default function PortalFeed() {
               )}
 
               {/* Action Pill */}
-              <div className="action-bar">
+              <div className="action-pill">
                 <div className="flex items-center gap-10">
                   <button className="flex items-center gap-2 text-slate-300 hover:text-pink-400 transition-colors">
                     <Heart size={22} />
@@ -888,7 +891,7 @@ export default function PortalFeed() {
         <div ref={loaderRef} className="h-32" />
       </main>
 
-      {/* Bottom Nav */}
+      {/* Bottom Nav – premium & visible */}
       <nav className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-2xl border-t border-blue-900/30 z-50 pb-safe">
         <div className="max-w-screen-md mx-auto flex justify-around items-center py-4">
           <Link href="/" className="flex flex-col items-center text-blue-400">
@@ -915,7 +918,7 @@ export default function PortalFeed() {
           <Link href="/profile" className="flex flex-col items-center text-slate-300 hover:text-blue-300">
             {user && user.google && typeof (user.google as any).picture === 'string' ? (
               <img
-                src={(user.google as any).picture}
+                src=(user.google as any).picture
                 alt="You"
                 className="w-8 h-8 rounded-full object-cover ring-2 ring-blue-500/50"
               />
