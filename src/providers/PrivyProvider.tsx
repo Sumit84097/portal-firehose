@@ -53,10 +53,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         },
         embeddedWallets: {
           ethereum: {
-            createOnLogin: 'users-without-wallets',  // ← moved here (required for latest Privy)
+            createOnLogin: 'users-without-wallets',
           },
         },
-        loginMethods: ['google', 'email', 'phone'],
+        loginMethods: ['google', 'email', 'sms'],  // ← changed 'phone' → 'sms'
       }}
       onLogin={(user: User | null) => {
         if (!user) {
@@ -66,7 +66,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
         console.log(`User logged in: ${user.id} (${user.email || user.google?.email || 'no email'})`);
 
-        // Reliable redirect after login
+        // Reliable full-page redirect after login
         window.location.assign('/feed');
       }}
     >
