@@ -36,7 +36,7 @@
 'use client';
 
 import { PrivyProvider } from '@privy-io/react-auth';
-import { User } from '@privy-io/react-auth';   // ← import the User type
+import { User } from '@privy-io/react-auth';
 import { useRouter } from 'next/navigation';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
@@ -52,7 +52,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           showWalletLoginFirst: false,
         },
         embeddedWallets: {
-          createOnLogin: 'users-without-wallets',
+          ethereum: {
+            createOnLogin: 'users-without-wallets',  // ← moved here (required for latest Privy)
+          },
         },
         loginMethods: ['google', 'email', 'phone'],
       }}
@@ -64,8 +66,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
         console.log(`User logged in: ${user.id} (${user.email || user.google?.email || 'no email'})`);
 
-        // Use window.location.assign for reliable redirect after login
-        // (avoids React Router issues during auth state change)
+        // Reliable redirect after login
         window.location.assign('/feed');
       }}
     >
