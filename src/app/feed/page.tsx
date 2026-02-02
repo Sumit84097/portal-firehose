@@ -480,7 +480,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { getShieldedFeed } from "@/app/actions/get-feed"; // ← your server action
+import { getShieldedFeed } from "@/app/actions/get-feed";
 
 export default function PortalFeed() {
   const { authenticated, ready, user } = usePrivy();
@@ -493,7 +493,7 @@ export default function PortalFeed() {
   const loaderRef = useRef<HTMLDivElement>(null);
 
   const fetchArtifacts = async (afterId?: string | null) => {
-    if (!hasMore) return;
+    if (!hasMore || loading) return;
 
     setLoading(true);
 
@@ -513,10 +513,8 @@ export default function PortalFeed() {
         return;
       }
 
-      // Merge new items
       setArtifacts((prev) => [...prev, ...result.data]);
 
-      // Update original map (earliest per hash)
       const newMap = new Map(originalMap);
       result.data.forEach((post: any) => {
         if (post.content_hash && post.content_hash !== "text_node") {
@@ -539,7 +537,6 @@ export default function PortalFeed() {
     }
   };
 
-  // Initial fetch
   useEffect(() => {
     if (ready && authenticated) {
       console.log("User ready & authenticated → starting feed fetch");
@@ -547,9 +544,8 @@ export default function PortalFeed() {
     }
   }, [ready, authenticated]);
 
-  // Infinite scroll
   useEffect(() => {
-    if (!loaderRef.current || !hasMore) return;
+    if (!loaderRef.current || !hasMore || loading) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -564,7 +560,7 @@ export default function PortalFeed() {
 
     observer.observe(loaderRef.current);
     return () => observer.disconnect();
-  }, [artifacts, hasMore]);
+  }, [artifacts, hasMore, loading]);
 
   useEffect(() => {
     if (ready && !authenticated) {
@@ -612,7 +608,10 @@ export default function PortalFeed() {
           {artifacts.map((post, index) => {
             const isOriginal = originalMap.get(post.content_hash)?.id === post.id;
             const originalPost = originalMap.get(post.content_hash);
-            const isVideo = post.media_type?.startsWith("video") || post.content_url?.endsWith('.mp4') || post.content_url?.endsWith('.mov'); // fallback to extension
+            const isVideo = post.media_type?.startsWith("video") || 
+                           post.content_url?.toLowerCase().endsWith('.mp4') || 
+                           post.content_url?.toLowerCase().endsWith('.mov') || 
+                           post.content_url?.toLowerCase().endsWith('.webm');
 
             return (
               <div key={post.id || `post-${index}`} className="group">
@@ -701,8 +700,14 @@ export default function PortalFeed() {
           })}
 
           {/* Infinite scroll loader */}
-          {hasMore && (
+          {hasMore && !loading && (
             <div ref={loaderRef} className="py-12 flex justify-center">
+              <Loader2 className="animate-spin text-cyan-500" size={32} />
+            </div>
+          )}
+
+          {loading && (
+            <div className="py-12 flex justify-center">
               <Loader2 className="animate-spin text-cyan-500" size={32} />
             </div>
           )}

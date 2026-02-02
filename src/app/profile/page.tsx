@@ -692,14 +692,11 @@ export default function SovereignProfile() {
     setClaimError(null);
 
     try {
-      // Prepare message
       const walletAddress = user.wallet?.address || "unknown";
       const message = `I claim @${cleanHandle} for my public key ${walletAddress}`;
 
-      // Sign with Privy
       const { signature } = await signMessage({ message });
 
-      // Call secure server action
       const result = await claimUsernameServer({
         did: user.id,
         username: cleanHandle,
@@ -713,7 +710,6 @@ export default function SovereignProfile() {
         throw new Error(result.error || "Claim failed on server");
       }
 
-      // Refresh local profile state
       setProfile((prev: any) => ({
         ...prev,
         username: cleanHandle,
@@ -787,7 +783,11 @@ export default function SovereignProfile() {
 
         <div className="w-9 h-9 rounded-full overflow-hidden border border-white/10 p-0.5 bg-zinc-900">
           {user?.google?.picture ? (
-            <img src={user.google.picture} alt="avatar" className="rounded-full w-full h-full object-cover" />
+            <img 
+              src={user.google.picture} 
+              alt="avatar" 
+              className="rounded-full w-full h-full object-cover" 
+            />
           ) : (
             <User size={18} className="m-auto text-zinc-700 mt-2" />
           )}
