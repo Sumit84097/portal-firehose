@@ -488,55 +488,57 @@ export default function PortalFeed() {
 
   const [artifacts, setArtifacts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null); // ← new: show errors
   const [hasMore, setHasMore] = useState(true);
   const [originalMap, setOriginalMap] = useState<Map<string, any>>(new Map());
   const loaderRef = useRef<HTMLDivElement>(null);
 
   const fetchArtifacts = async (afterId?: string | null) => {
-    if (!hasMore || loading) return;
+    if (!hasMore || !authenticated) return;
 
     setLoading(true);
+    setFetchError(null);
 
     try {
-      console.log("Fetching feed...", { afterId });
+      console.log("Fetching feed...", { afterId, userId: user?.id });
 
       const result = await getShieldedFeed({
         limit: 10,
         afterId,
       });
 
-      console.log("Feed result:", result);
+      console.log("Feed result:", result); // ← debug: see what server returns
 
-      if (!result.success || !result.data?.length) {
-        console.log("No more items or error");
-        setHasMore(false);
-        return;
+      if (!result.success) {
+        throw new Error(result.error || "Feed fetch failed");
       }
 
-      setArtifacts((prev) => [...prev, ...result.data]);
+      if (!result.data?.length) {
+        console.log("No more items");
+        setHasMore(false);
+      } else {
+        setArtifacts((prev) => [...prev, ...result.data]);
 
-      const newMap = new Map(originalMap);
-      result.data.forEach((post: any) => {
-        if (post.content_hash && post.content_hash !== "text_node") {
-          if (!newMap.has(post.content_hash)) {
-            newMap.set(post.content_hash, post);
-          } else {
-            const current = newMap.get(post.content_hash);
-            if (new Date(post.created_at) < new Date(current.created_at)) {
+        const newMap = new Map(originalMap);
+        result.data.forEach((post: any) => {
+          if (post.content_hash && post.content_hash !== "text_node") {
+            if (!newMap.has(post.content_hash) || new Date(post.created_at) < new Date(newMap.get(post.content_hash).created_at)) {
               newMap.set(post.content_hash, post);
             }
           }
-        }
-      });
-      setOriginalMap(newMap);
-    } catch (err) {
-      console.error("Feed fetch failed:", err);
+        });
+        setOriginalMap(newMap);
+      }
+    } catch (err: any) {
+      console.error("Feed fetch error:", err);
+      setFetchError(err.message || "Failed to load feed");
       setHasMore(false);
     } finally {
-      setLoading(false);
+      setLoading(false); // ← always reset loading
     }
   };
 
+  // Initial fetch
   useEffect(() => {
     if (ready && authenticated) {
       console.log("User ready & authenticated → starting feed fetch");
@@ -544,6 +546,7 @@ export default function PortalFeed() {
     }
   }, [ready, authenticated]);
 
+  // Infinite scroll
   useEffect(() => {
     if (!loaderRef.current || !hasMore || loading) return;
 
@@ -562,6 +565,7 @@ export default function PortalFeed() {
     return () => observer.disconnect();
   }, [artifacts, hasMore, loading]);
 
+  // Redirect if not authenticated
   useEffect(() => {
     if (ready && !authenticated) {
       console.log("Not authenticated → redirecting to /");
@@ -603,12 +607,29 @@ export default function PortalFeed() {
       {/* Feed */}
       <main className="flex-1 overflow-y-auto px-4 pt-6 pb-40 scrollbar-hide">
         <div className="max-w-md mx-auto space-y-12">
-          {artifacts.length === 0 && !loading && (
-            <div className="text-center py-20 text-zinc-500">
-              No content yet. Be the first to upload!
+          {/* Show error if fetch failed */}
+          {fetchError && (
+            <div className="text-center py-10 text-red-400">
+              {fetchError} — <button onClick={() => fetchArtifacts()} className="underline">Retry</button>
             </div>
           )}
 
+          {/* Loading state */}
+          {loading && artifacts.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-20">
+              <Loader2 className="animate-spin text-cyan-500" size={48} />
+              <p className="mt-4 text-zinc-400">Loading firehose...</p>
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!loading && artifacts.length === 0 && !fetchError && (
+            <div className="text-center py-20 text-zinc-500">
+              No content yet. Be the first to upload in Studio!
+            </div>
+          )}
+
+          {/* Artifacts list */}
           {artifacts.map((post, index) => {
             const isOriginal = originalMap.get(post.content_hash)?.id === post.id;
             const originalPost = originalMap.get(post.content_hash);
