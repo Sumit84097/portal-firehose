@@ -725,7 +725,7 @@ export default function PortalFeed() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 text-white pb-safe">
-      {/* Top Bar */}
+      {/* Top Bar – matches reference top bar */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-blue-900/30 px-4 py-3">
         <div className="flex items-center justify-between max-w-screen-md mx-auto">
           <div className="flex items-center gap-3">
@@ -746,13 +746,13 @@ export default function PortalFeed() {
         </div>
       </header>
 
-      {/* Feed */}
-      <main className="pt-20 px-0 max-w-screen-md mx-auto space-y-8">
+      {/* Feed – content-first, no heavy boxes */}
+      <main className="pt-20 px-0 max-w-screen-md mx-auto space-y-10">
         {posts.length === 0 && !loading && (
           <div className="text-center py-32 text-slate-400">
             <Hexagon size={64} className="mx-auto mb-6 opacity-40 animate-pulse" />
-            <p className="text-xl font-medium">The feed is quiet...</p>
-            <p className="mt-2">Create your first moment</p>
+            <p className="text-xl font-medium">The feed is empty...</p>
+            <p className="mt-2">Be the first to share</p>
           </div>
         )}
 
@@ -774,7 +774,7 @@ export default function PortalFeed() {
               key={post.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass-card mb-10"
+              className="glass-card mb-12"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-4 pt-4 pb-2">
@@ -784,10 +784,10 @@ export default function PortalFeed() {
                       <img
                         src={author.avatar}
                         alt={author.name}
-                        className="w-11 h-11 rounded-full object-cover ring-2 ring-blue-500/30 ring-offset-2 ring-offset-black"
+                        className="w-11 h-11 rounded-full object-cover ring-2 ring-blue-500/30 ring-offset-2 ring-offset-[var(--bg-mid)]"
                       />
                     ) : (
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center ring-2 ring-blue-500/30 ring-offset-2 ring-offset-black">
+                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center ring-2 ring-blue-500/30 ring-offset-2 ring-offset-[var(--bg-mid)]">
                         <UserIcon size={22} className="text-blue-300" />
                       </div>
                     )}
@@ -851,7 +851,7 @@ export default function PortalFeed() {
                 </p>
               )}
 
-              {/* Action Pill */}
+              {/* Action Pill – exact match to reference */}
               <div className="action-bar">
                 <div className="flex items-center gap-8">
                   <button className="flex items-center gap-2 text-slate-300 hover:text-pink-400 transition-colors">
@@ -889,7 +889,7 @@ export default function PortalFeed() {
         <div ref={loaderRef} className="h-32" />
       </main>
 
-      {/* Bottom Nav */}
+      {/* Bottom Nav – clean & native */}
       <nav className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-2xl border-t border-blue-900/30 z-50 pb-safe">
         <div className="max-w-screen-md mx-auto flex justify-around items-center py-4">
           <Link href="/" className="flex flex-col items-center text-blue-400">

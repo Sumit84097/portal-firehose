@@ -3,87 +3,93 @@
 @tailwind utilities;
 
 :root {
-  --bg-start: #000000;
-  --bg-mid: #0f172a;
-  --bg-end: #1e293b;
-  --card-bg: rgba(15, 23, 42, 0.75);
-  --card-border: rgba(59, 130, 246, 0.12);
+  --bg-start: #000814;
+  --bg-mid: #001233;
+  --bg-end: #001845;
+  --card: rgba(1, 18, 51, 0.78);
+  --card-border: rgba(96, 165, 250, 0.12);
   --accent: #60a5fa;
-  --verified-gold: #fbbf24;
-  --online-green: #22c55e;
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
+  --verified: #fbbf24;
+  --online: #22c55e;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
 }
 
 body {
   background: linear-gradient(to bottom, var(--bg-start), var(--bg-mid), var(--bg-end));
-  color: var(--text-primary);
+  color: var(--text);
   min-height: 100vh;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* Strong glass effect without heavy card look */
-.glass-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+/* Premium floating glass – very strong blur like Aether */
+.glass-post {
+  background: var(--card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--card-border);
-  border-radius: 1.25rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  border-radius: 1.5rem;
   overflow: hidden;
+  margin: 0 1rem 2rem;
 }
 
-/* Verified pill – subtle gold */
+/* Verified pill – exact gold style */
 .verified-pill {
-  background: var(--verified-gold);
+  background: var(--verified);
   color: black;
-  font-size: 0.6875rem;
-  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  padding: 0.125rem 0.625rem;
   border-radius: 9999px;
   font-weight: 600;
-  box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
 }
 
 /* Online dot */
 .online-dot {
   position: absolute;
-  bottom: 1px;
-  right: 1px;
-  width: 10px;
-  height: 10px;
-  background: var(--online-green);
-  border: 1.5px solid #0f172a;
+  bottom: 2px;
+  right: 2px;
+  width: 11px;
+  height: 11px;
+  background: var(--online);
+  border: 2px solid #001233;
   border-radius: 50%;
 }
 
-/* Action bar – sleek pill */
-.action-bar {
-  background: rgba(30, 41, 59, 0.85);
-  backdrop-filter: blur(12px);
+/* Action pill – sleek, translucent like reference */
+.action-pill {
+  background: rgba(1, 18, 51, 0.85);
+  backdrop-filter: blur(16px);
   border-radius: 9999px;
-  padding: 0.5rem 1.25rem;
+  padding: 0.625rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 1rem 1rem;
-  border: 1px solid rgba(59, 130, 246, 0.08);
+  margin: 0.75rem 1rem 1.25rem;
+  border: 1px solid rgba(96, 165, 250, 0.08);
 }
 
 /* Glowing central + button */
 .glow-plus {
-  box-shadow: 0 0 30px rgba(96, 165, 250, 0.6);
+  background: linear-gradient(145deg, #3b82f6, #60a5fa);
+  box-shadow: 0 12px 40px rgba(59, 130, 246, 0.5);
+  transition: transform 0.15s ease;
+}
+
+.glow-plus:active {
+  transform: scale(0.95);
 }
 
 /* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
 
-/* Safe area */
+/* Safe area bottom nav */
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }
