@@ -724,7 +724,7 @@ export default function PortalFeed() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 text-white pb-safe">
-      {/* Top Bar – clean & premium */}
+      {/* Top Bar */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-blue-900/30 px-4 py-3">
         <div className="flex items-center justify-between max-w-screen-md mx-auto">
           <div className="flex items-center gap-3">
@@ -745,7 +745,7 @@ export default function PortalFeed() {
         </div>
       </header>
 
-      {/* Feed – cinematic, immersive, no heavy boxes */}
+      {/* Feed – cinematic, immersive */}
       <main className="pt-20 px-0 max-w-screen-md mx-auto space-y-10">
         {posts.length === 0 && !loading && (
           <div className="text-center py-32 text-slate-400">
@@ -816,9 +816,9 @@ export default function PortalFeed() {
                 </button>
               </div>
 
-              {/* Media – full bleed */}
+              {/* Media – edge-to-edge */}
               {post.signed_url && (
-                <div className="w-full">
+                <div className="media-full-bleed">
                   {isVideo ? (
                     <div className="relative">
                       <video
