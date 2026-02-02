@@ -319,6 +319,12 @@ import {
   User as UserIcon,
   Loader2,
   CheckCircle2,
+  Hexagon,
+  Home,
+  Compass,
+  Bell,
+  Search,
+  MoreVertical,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
@@ -434,7 +440,8 @@ export default function PortalFeed() {
             name: post.author_name || "Anonymous",
             handle: post.author_did?.slice(-8) || "@unknown",
             avatar: post.author_avatar || null,
-            verified: true, // you can make this dynamic later
+            verified: true, // dynamic later
+            time: new Date(post.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
           };
 
           return (
@@ -479,7 +486,7 @@ export default function PortalFeed() {
                     <div className="flex items-center gap-2 text-sm text-gray-400">
                       <span>@{author.handle}</span>
                       <span>•</span>
-                      <span>{new Date(post.created_at).toLocaleDateString()}</span>
+                      <span>{author.time}</span>
                     </div>
                   </div>
                 </div>
