@@ -703,7 +703,7 @@ export default function SovereignProfile() {
         message,
         signature,
         walletAddress,
-        avatarUrl: user?.google?.picture || null,
+        avatarUrl: user && user.google && typeof (user.google as any).picture === 'string' ? (user.google as any).picture : null,
       });
 
       if (!result.success) {
@@ -716,7 +716,7 @@ export default function SovereignProfile() {
         username_claim_signature: signature,
         username_claim_message: message,
         wallet_address: walletAddress,
-        avatar_url: user?.google?.picture || prev?.avatar_url || null,
+        avatar_url: user && user.google && typeof (user.google as any).picture === 'string' ? (user.google as any).picture : prev?.avatar_url || null,
       }));
 
       setIsEditingUsername(false);
@@ -782,9 +782,9 @@ export default function SovereignProfile() {
         </div>
 
         <div className="w-9 h-9 rounded-full overflow-hidden border border-white/10 p-0.5 bg-zinc-900">
-          {user?.google?.picture ? (
+          {user && user.google && typeof (user.google as any).picture === 'string' && (user.google as any).picture ? (
             <img 
-              src={user.google.picture} 
+              src={(user.google as any).picture} 
               alt="avatar" 
               className="rounded-full w-full h-full object-cover" 
             />
