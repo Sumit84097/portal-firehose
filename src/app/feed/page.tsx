@@ -325,7 +325,7 @@ import {
   Bell,
   Search,
   MoreVertical,
-  Plus,                    // ← this fixes the error
+  Plus,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
@@ -441,7 +441,7 @@ export default function PortalFeed() {
             name: post.author_name || "Anonymous",
             handle: post.author_did?.slice(-8) || "@unknown",
             avatar: post.author_avatar || null,
-            verified: true, // dynamic later
+            verified: true,
             time: new Date(post.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
           };
 
@@ -598,9 +598,9 @@ export default function PortalFeed() {
           </Link>
 
           <Link href="/profile" className="flex flex-col items-center text-gray-400 hover:text-white">
-            {user?.google?.picture ? (
+            {user && user.google && typeof (user.google as any).picture === 'string' && (user.google as any).picture ? (
               <img
-                src={user.google.picture}
+                src={(user.google as any).picture}
                 alt="Profile"
                 className="w-7 h-7 rounded-full object-cover border-2 border-cyan-500/30"
               />
