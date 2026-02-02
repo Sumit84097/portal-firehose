@@ -583,7 +583,7 @@ export default function PortalFeed() {
       {/* Nav */}
       <nav className="shrink-0 flex items-center justify-between px-6 py-6 bg-black border-b border-white/5 z-[100]">
         <Link href="/profile" className="w-8 h-8 rounded-full border border-cyan-500/30 overflow-hidden bg-zinc-950 flex items-center justify-center">
-          {user?.google && 'picture' in user.google && user.google.picture ? (
+          {user?.google && typeof user.google.picture === 'string' && user.google.picture ? (
             <img 
               src={user.google.picture} 
               alt="P" 
