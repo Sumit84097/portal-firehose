@@ -725,7 +725,7 @@ export default function PortalFeed() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 text-white pb-safe">
-      {/* Top Bar - matches reference */}
+      {/* Top Bar */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-blue-900/30 px-4 py-3">
         <div className="flex items-center justify-between max-w-screen-md mx-auto">
           <div className="flex items-center gap-3">
@@ -746,8 +746,8 @@ export default function PortalFeed() {
         </div>
       </header>
 
-      {/* Feed - glass cards with premium feel */}
-      <main className="pt-20 px-3 max-w-screen-md mx-auto space-y-6">
+      {/* Feed */}
+      <main className="pt-20 px-0 max-w-screen-md mx-auto space-y-8">
         {posts.length === 0 && !loading && (
           <div className="text-center py-32 text-slate-400">
             <Hexagon size={64} className="mx-auto mb-6 opacity-40 animate-pulse" />
@@ -770,11 +770,11 @@ export default function PortalFeed() {
           };
 
           return (
-            <motion.article
+            <motion.div
               key={post.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass-card"
+              className="glass-card mb-10"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-4 pt-4 pb-2">
@@ -792,7 +792,7 @@ export default function PortalFeed() {
                       </div>
                     )}
 
-                    <div className="online-dot absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-black" />
+                    <div className="online-dot" />
                   </div>
 
                   <div>
@@ -817,9 +817,9 @@ export default function PortalFeed() {
                 </button>
               </div>
 
-              {/* Media */}
+              {/* Media – edge-to-edge */}
               {post.signed_url && (
-                <div className="relative">
+                <div className="media-full-bleed">
                   {isVideo ? (
                     <div className="relative">
                       <video
@@ -852,7 +852,7 @@ export default function PortalFeed() {
               )}
 
               {/* Action Pill */}
-              <div className="action-bar mx-4 my-3">
+              <div className="action-bar">
                 <div className="flex items-center gap-8">
                   <button className="flex items-center gap-2 text-slate-300 hover:text-pink-400 transition-colors">
                     <Heart size={22} />
@@ -872,7 +872,7 @@ export default function PortalFeed() {
                   <span className="text-sm font-medium">Tip</span>
                 </button>
               </div>
-            </motion.article>
+            </motion.div>
           );
         })}
 
@@ -889,7 +889,7 @@ export default function PortalFeed() {
         <div ref={loaderRef} className="h-32" />
       </main>
 
-      {/* Bottom Nav - glowing central + */}
+      {/* Bottom Nav */}
       <nav className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-2xl border-t border-blue-900/30 z-50 pb-safe">
         <div className="max-w-screen-md mx-auto flex justify-around items-center py-4">
           <Link href="/" className="flex flex-col items-center text-blue-400">

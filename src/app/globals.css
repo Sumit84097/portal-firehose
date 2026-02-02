@@ -4,11 +4,11 @@
 
 :root {
   --bg-start: #000000;
-  --bg-mid: #0f172a;      /* deep navy */
-  --bg-end: #1e293b;      /* slate-800 */
+  --bg-mid: #0f172a;
+  --bg-end: #1e293b;
   --card-bg: rgba(15, 23, 42, 0.75);
   --card-border: rgba(59, 130, 246, 0.12);
-  --accent: #60a5fa;      /* blue-400 */
+  --accent: #60a5fa;
   --verified-gold: #fbbf24;
   --online-green: #22c55e;
   --text-primary: #f1f5f9;
@@ -22,7 +22,7 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Premium glass card */
+/* Strong glass effect without heavy card look */
 .glass-card {
   background: var(--card-bg);
   backdrop-filter: blur(20px);
@@ -33,7 +33,7 @@ body {
   overflow: hidden;
 }
 
-/* Verified pill - gold with glow */
+/* Verified pill – subtle gold */
 .verified-pill {
   background: var(--verified-gold);
   color: black;
@@ -44,17 +44,20 @@ body {
   box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
 }
 
-/* Glowing central + button */
-.glow-plus {
-  box-shadow: 0 0 30px rgba(96, 165, 250, 0.6);
-  transition: transform 0.2s ease;
-}
-.glow-plus:hover {
-  transform: scale(1.05);
+/* Online dot */
+.online-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  background: var(--online-green);
+  border: 1.5px solid #0f172a;
+  border-radius: 50%;
 }
 
-/* Action pill */
-.action-pill {
+/* Action bar – sleek pill */
+.action-bar {
   background: rgba(30, 41, 59, 0.85);
   backdrop-filter: blur(12px);
   border-radius: 9999px;
@@ -63,18 +66,24 @@ body {
   align-items: center;
   justify-content: space-between;
   margin: 0 1rem 1rem;
+  border: 1px solid rgba(59, 130, 246, 0.08);
+}
+
+/* Glowing central + button */
+.glow-plus {
+  box-shadow: 0 0 30px rgba(96, 165, 250, 0.6);
 }
 
 /* Hide scrollbar */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
-/* Safe area bottom */
+/* Safe area */
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }
