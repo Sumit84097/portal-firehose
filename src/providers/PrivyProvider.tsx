@@ -35,21 +35,21 @@
 
 'use client';
 
-import { PrivyProvider, useLogin } from '@privy-io/react-auth';
+import { PrivyProvider, usePrivy } from '@privy-io/react-auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
+  const { user, ready } = usePrivy();  // ← usePrivy() gives user, ready, etc.
   const router = useRouter();
-  const { login, user } = useLogin();
 
-  // Redirect after successful login
+  // Redirect to /feed after successful login
   useEffect(() => {
-    if (user) {
+    if (ready && user) {
       console.log(`User logged in: ${user.id} (${user.email || user.google?.email || 'no email'})`);
       router.replace('/feed');
     }
-  }, [user, router]);
+  }, [ready, user, router]);
 
   return (
     <PrivyProvider
