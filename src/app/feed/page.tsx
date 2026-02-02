@@ -625,7 +625,6 @@
 // }
 
 
-
 "use client";
 
 import { motion } from "framer-motion";
@@ -639,7 +638,6 @@ import {
   User as UserIcon,
   Loader2,
   CheckCircle2,
-  Hexagon,
   Home,
   Compass,
   Bell,
@@ -717,42 +715,45 @@ export default function PortalFeed() {
 
   if (!ready) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-[#0a0f1c] flex items-center justify-center">
         <Loader2 className="animate-spin text-blue-400" size={48} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 text-white pb-safe">
-      {/* Top Bar – exact match to reference */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-blue-900/30 px-4 py-3">
+    <div className="min-h-screen bg-[#0a0f1c] text-white pb-24">
+      {/* Top Bar */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1c]/95 backdrop-blur-md border-b border-white/5 px-4 py-3">
         <div className="flex items-center justify-between max-w-screen-md mx-auto">
-          <div className="flex items-center gap-3">
-            <Hexagon className="text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" size={32} />
-            <span className="text-2xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              PORTAL
+          <div className="flex items-center gap-2">
+            <Diamond className="text-blue-400 fill-blue-400/20" size={28} />
+            <span className="text-xl font-bold tracking-wider text-white">
+              AETHER
             </span>
           </div>
           <div className="flex items-center gap-5">
-            <button className="text-blue-300 hover:text-white transition-colors">
+            <button className="text-slate-400 hover:text-white transition-colors">
               <Search size={24} />
             </button>
-            <button className="text-blue-300 hover:text-white transition-colors relative">
-              <Bell size={24} />
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></span>
+            <button className="text-slate-400 hover:text-white transition-colors relative">
+              <div className="flex flex-col gap-0.5">
+                <div className="w-5 h-0.5 bg-current rounded-full"></div>
+                <div className="w-3 h-0.5 bg-current rounded-full ml-auto"></div>
+                <div className="w-4 h-0.5 bg-current rounded-full ml-auto"></div>
+              </div>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Feed – cinematic, edge-to-edge, glass floating posts */}
-      <main className="pt-20 px-0 max-w-screen-md mx-auto space-y-10">
+      {/* Feed */}
+      <main className="pt-16 px-0 max-w-screen-md mx-auto">
         {posts.length === 0 && !loading && (
-          <div className="text-center py-32 text-slate-400">
-            <Hexagon size={64} className="mx-auto mb-6 opacity-40 animate-pulse" />
-            <p className="text-xl font-medium">The feed is quiet...</p>
-            <p className="mt-2">Create your first moment</p>
+          <div className="text-center py-32 text-slate-500">
+            <Diamond size={64} className="mx-auto mb-6 opacity-20" />
+            <p className="text-lg font-medium">The feed is empty...</p>
+            <p className="mt-2 text-sm">Be the first to share</p>
           </div>
         )}
 
@@ -763,48 +764,48 @@ export default function PortalFeed() {
 
           const author = {
             name: post.author_name || "Anonymous",
-            handle: post.author_did?.slice(-8) || "@unknown",
+            handle: post.author_did?.slice(-8) || "unknown",
             avatar: post.author_avatar || null,
             verified: true,
-            time: new Date(post.created_at).toLocaleString([], {hour: 'numeric', minute:'2-digit', hour12: true})
+            time: "2h ago"
           };
 
           return (
-            <motion.div
+            <motion.article
               key={post.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass-post"
+              className="mb-8"
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-4 pt-4 pb-2">
+              <div className="flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-3">
                   <div className="relative">
                     {author.avatar ? (
                       <img
                         src={author.avatar}
                         alt={author.name}
-                        className="w-11 h-11 rounded-full object-cover ring-2 ring-blue-500/30 ring-offset-2 ring-offset-[var(--bg-mid)]"
+                        className="w-10 h-10 rounded-full object-cover ring-2 ring-green-500 ring-offset-2 ring-offset-[#0a0f1c]"
                       />
                     ) : (
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center ring-2 ring-blue-500/30 ring-offset-2 ring-offset-[var(--bg-mid)]">
-                        <UserIcon size={22} className="text-blue-300" />
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center ring-2 ring-green-500 ring-offset-2 ring-offset-[#0a0f1c]">
+                        <UserIcon size={20} className="text-slate-400" />
                       </div>
                     )}
-
-                    <div className="online-dot" />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#0a0f1c]" />
                   </div>
 
-                  <div>
+                  <div className="flex flex-col">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-base">{author.name}</span>
+                      <span className="font-semibold text-[15px] text-white">{author.name}</span>
                       {author.verified && (
-                        <span className="verified-pill">
-                          Verified by Project I
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30">
+                          <CheckCircle2 size={12} className="text-amber-400" />
+                          <span className="text-[11px] font-medium text-amber-400">Verified by Project I</span>
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-slate-400 flex items-center gap-1.5">
+                    <div className="text-[13px] text-slate-500 flex items-center gap-1">
                       <span>@{author.handle}</span>
                       <span>•</span>
                       <span>{author.time}</span>
@@ -812,118 +813,131 @@ export default function PortalFeed() {
                   </div>
                 </div>
 
-                <button className="text-slate-400 hover:text-white">
+                <button className="text-slate-500 hover:text-white p-1">
                   <MoreVertical size={20} />
                 </button>
               </div>
 
-              {/* Media – edge-to-edge */}
+              {/* Media */}
               {post.signed_url && (
-                <div className="media-full-bleed">
+                <div className="relative w-full">
                   {isVideo ? (
-                    <div className="relative">
+                    <div className="relative aspect-video bg-black">
                       <video
                         src={post.signed_url}
-                        className="w-full aspect-video object-cover"
+                        className="w-full h-full object-cover"
                         loop
                         muted
                         playsInline
                         preload="metadata"
                       />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                        <Play size={64} className="text-white opacity-90 drop-shadow-xl" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                          <Play size={28} className="text-white ml-1" fill="white" />
+                        </div>
+                      </div>
+                      <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/60 rounded text-xs font-medium text-white">
+                        0:59
                       </div>
                     </div>
                   ) : (
-                    <img
-                      src={post.signed_url}
-                      alt={post.caption}
-                      className="w-full aspect-square object-cover"
-                    />
+                    <div className="relative aspect-[4/5] bg-slate-900">
+                      <img
+                        src={post.signed_url}
+                        alt={post.caption}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   )}
                 </div>
               )}
 
-              {/* Caption */}
-              {post.caption && (
-                <p className="px-4 py-3 text-[15px] leading-relaxed text-slate-100">
-                  {post.caption}
-                </p>
-              )}
+              {/* Action Bar */}
+              <div className="px-4 py-3">
+                <div className="flex items-center justify-between bg-slate-900/50 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/5">
+                  <div className="flex items-center gap-6">
+                    <button className="flex items-center gap-2 text-slate-300 hover:text-pink-500 transition-colors">
+                      <Heart size={22} />
+                      <span className="text-sm font-medium">4.2k</span>
+                    </button>
+                    <button className="flex items-center gap-2 text-slate-300 hover:text-blue-400 transition-colors">
+                      <MessageCircle size={22} />
+                      <span className="text-sm font-medium">128</span>
+                    </button>
+                    <button className="text-slate-300 hover:text-green-400 transition-colors">
+                      <Share2 size={22} />
+                    </button>
+                  </div>
 
-              {/* Action Pill */}
-              <div className="action-bar">
-                <div className="flex items-center gap-8">
-                  <button className="flex items-center gap-2 text-slate-300 hover:text-pink-400 transition-colors">
-                    <Heart size={22} />
-                    <span className="text-sm font-medium">4.2k</span>
-                  </button>
-                  <button className="flex items-center gap-2 text-slate-300 hover:text-blue-400 transition-colors">
-                    <MessageCircle size={22} />
-                    <span className="text-sm font-medium">128</span>
-                  </button>
-                  <button className="flex items-center gap-2 text-slate-300 hover:text-green-400 transition-colors">
-                    <Share2 size={22} />
+                  <button className="flex items-center gap-2 text-slate-300 hover:text-cyan-400 transition-colors">
+                    <Diamond size={20} className="text-cyan-400" />
+                    <span className="text-sm font-medium">Tip</span>
                   </button>
                 </div>
-
-                <button className="flex items-center gap-2 text-slate-300 hover:text-purple-400 transition-colors">
-                  <Diamond size={22} />
-                  <span className="text-sm font-medium">Tip</span>
-                </button>
               </div>
-            </motion.div>
+
+              {/* Caption */}
+              {post.caption && (
+                <div className="px-4 pb-2">
+                  <p className="text-[15px] leading-relaxed text-slate-200">
+                    {post.caption}
+                    <button className="text-slate-500 ml-1 hover:text-slate-300">...more</button>
+                  </p>
+                </div>
+              )}
+            </motion.article>
           );
         })}
 
         {loading && (
-          <div className="flex justify-center py-16">
-            <Loader2 className="animate-spin text-blue-400" size={48} />
+          <div className="flex justify-center py-12">
+            <Loader2 className="animate-spin text-blue-400" size={32} />
           </div>
         )}
 
         {!hasMore && posts.length > 0 && (
-          <p className="text-center text-slate-400 py-12">You're all caught up</p>
+          <p className="text-center text-slate-600 py-12 text-sm">You're all caught up</p>
         )}
 
-        <div ref={loaderRef} className="h-32" />
+        <div ref={loaderRef} className="h-20" />
       </main>
 
-      {/* Bottom Nav */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-2xl border-t border-blue-900/30 z-50 pb-safe">
-        <div className="max-w-screen-md mx-auto flex justify-around items-center py-4">
-          <Link href="/" className="flex flex-col items-center text-blue-400">
-            <Home size={28} />
-            <span className="text-xs mt-1 font-medium">Home</span>
+      {/* Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-[#0a0f1c]/98 backdrop-blur-xl border-t border-white/5 z-50 pb-safe">
+        <div className="max-w-screen-md mx-auto flex justify-around items-end px-2 py-2">
+          <Link href="/" className="flex flex-col items-center gap-1 py-2 px-4">
+            <Home size={24} className="text-white" fill="white" />
+            <span className="text-[11px] font-medium text-white">Home</span>
           </Link>
 
-          <Link href="/explore" className="flex flex-col items-center text-slate-300 hover:text-blue-300">
-            <Compass size={28} />
-            <span className="text-xs mt-1 font-medium">Explore</span>
+          <Link href="/explore" className="flex flex-col items-center gap-1 py-2 px-4 text-slate-500 hover:text-slate-300">
+            <Compass size={24} />
+            <span className="text-[11px] font-medium">Explore</span>
           </Link>
 
-          <Link href="/studio" className="relative -mt-14">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center glow-plus animate-pulse-slow">
-              <Plus size={40} className="text-white" />
+          <Link href="/studio" className="relative -top-5">
+            <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30">
+              <Plus size={32} className="text-white" strokeWidth={2.5} />
             </div>
           </Link>
 
-          <Link href="/alerts" className="flex flex-col items-center text-slate-300 hover:text-blue-300">
-            <Bell size={28} />
-            <span className="text-xs mt-1 font-medium">Alerts</span>
+          <Link href="/alerts" className="flex flex-col items-center gap-1 py-2 px-4 text-slate-500 hover:text-slate-300 relative">
+            <Bell size={24} />
+            <span className="absolute top-2 right-3 w-2 h-2 bg-red-500 rounded-full" />
+            <span className="text-[11px] font-medium">Alerts</span>
           </Link>
 
-          <Link href="/profile" className="flex flex-col items-center text-slate-300 hover:text-blue-300">
+          <Link href="/profile" className="flex flex-col items-center gap-1 py-2 px-4 text-slate-500 hover:text-slate-300">
             {user && user.google && typeof (user.google as any).picture === 'string' ? (
               <img
                 src={(user.google as any).picture}
                 alt="You"
-                className="w-8 h-8 rounded-full object-cover ring-2 ring-blue-500/50"
+                className="w-6 h-6 rounded-full object-cover ring-2 ring-slate-600"
               />
             ) : (
-              <UserIcon size={28} />
+              <UserIcon size={24} />
             )}
-            <span className="text-xs mt-1 font-medium">You</span>
+            <span className="text-[11px] font-medium">You</span>
           </Link>
         </div>
       </nav>
