@@ -5,36 +5,55 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
-  --cyan: #00ffff;
+  --card: rgba(17, 24, 39, 0.6);
+  --card-border: rgba(34, 211, 238, 0.2);
+  --accent: #22d3ee;
+  --accent-dark: #0891b2;
+  --verified: #fbbf24;
+  --text-muted: #9ca3af;
 }
 
-/* Allow natural scrolling on the whole page */
-html, body {
-  background-color: #000;
-  color: #fff;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh; /* Fixed the error here */
-  overflow-x: hidden;
-  font-family: 'Inter', sans-serif;
+body {
+  @apply bg-gradient-to-b from-black via-indigo-950 to-purple-950 text-white min-h-screen;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* High-tech dotted grid background */
-.bg-dots {
-  background-image: radial-gradient(circle at 1px 1px, #1a1a1a 1px, transparent 0);
-  background-size: 32px 32px;
-  background-attachment: fixed;
-}
-
-/* Clean glass effect */
 .glass {
-  background: rgba(15, 15, 15, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+}
+
+.verified-badge {
+  background: linear-gradient(to right, #fbbf24, #f59e0b);
+  color: black;
+  font-weight: 600;
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.4; }
+}
+
+/* Scrollbar hide */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
+/* Safe area for mobile bottom nav */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
