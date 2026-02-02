@@ -459,7 +459,7 @@ export default function PortalFeed() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-gradient-to-b from-gray-900/80 to-black/80 backdrop-blur-xl rounded-3xl border border-cyan-900/30 overflow-hidden shadow-2xl shadow-cyan-900/20"
+              className="mb-6 glass overflow-hidden"
             >
               {/* Post Header */}
               <div className="flex items-center justify-between px-5 py-4">
