@@ -3,58 +3,77 @@
 @tailwind utilities;
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --card: rgba(17, 24, 39, 0.6);
-  --card-border: rgba(34, 211, 238, 0.2);
-  --accent: #22d3ee;
-  --accent-dark: #0891b2;
-  --verified: #fbbf24;
-  --text-muted: #9ca3af;
+  --background-start: #000000;
+  --background-mid: #0f172a;    /* slate-900 / deep navy */
+  --background-end: #1e293b;    /* slate-800 */
+  --card-bg: rgba(15, 23, 42, 0.65); /* stronger semi-transparent navy */
+  --card-border: rgba(59, 130, 246, 0.18); /* blue-500/30 */
+  --accent: #3b82f6;            /* blue-500 for highlights */
+  --verified-gold: #fbbf24;
+  --text-muted: #94a3b8;
 }
 
-/* Glassmorphism - defined as plain CSS (no @apply for arbitrary values) */
-.glass {
-  background: rgba(17, 24, 39, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px); /* Safari support */
-  border: 1px solid rgba(34, 211, 238, 0.2);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border-radius: 1.5rem; /* rounded-3xl */
+body {
+  background: linear-gradient(to bottom, var(--background-start), var(--background-mid), var(--background-end));
+  color: white;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Other reusable classes */
+/* Glass card (strong blur + border glow) */
 @layer components {
-  .glow-cyan {
-    box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+  .glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--card-border);
+    border-radius: 1.25rem; /* rounded-2xl */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
   }
 
-  .verified-badge {
-    background: linear-gradient(to right, #fbbf24, #f59e0b);
+  .verified-pill {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
     color: black;
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
     font-weight: 600;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
   }
 
-  .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  .glow-accent {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  }
+
+  .action-pill {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 9999px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #cbd5e1;
+    transition: all 0.2s;
+  }
+
+  .action-pill:hover {
+    background: rgba(59, 130, 246, 0.2);
+    color: white;
   }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 0.4; }
-}
-
-/* Scrollbar hide */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
+/* Hide scrollbar */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
-/* Safe area for mobile bottom nav */
+/* Safe area bottom padding */
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }
