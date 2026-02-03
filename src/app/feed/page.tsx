@@ -1610,7 +1610,7 @@ export default function PortalFeed() {
           <div className="w-8 h-8 rounded-full bg-zinc-900 border border-white/10 overflow-hidden flex items-center justify-center">
             {user?.google?.picture ? (
               <img
-                src={user.google.picture}
+                src={user.google.picture as string}
                 className="w-full h-full object-cover"
                 alt="Profile"
               />
