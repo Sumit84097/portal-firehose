@@ -172,7 +172,7 @@ import Link from "next/link";
 import { getShieldedFeed } from "@/app/actions/get-feed";
 
 export default function PortalFeed() {
-  const { authenticated, ready, user } = usePrivy();
+  const { authenticated, ready } = usePrivy();
   const router = useRouter();
 
   const [posts, setPosts] = useState<any[]>([]);
@@ -231,8 +231,8 @@ export default function PortalFeed() {
 
   return (
     <div className="flex flex-col min-h-[100dvh] bg-black text-white overscroll-y-contain">
-      {/* Fixed Top Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-zinc-900 px-3 py-3">
+      {/* Top Header - fixed */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-zinc-900 px-4 py-3">
         <div className="flex items-center justify-between max-w-[420px] mx-auto">
           <div className="flex items-center gap-2">
             <Hexagon className="text-blue-500" size={26} />
@@ -252,13 +252,13 @@ export default function PortalFeed() {
         </div>
       </header>
 
-      {/* Main Feed Content */}
-      <main className="flex-1 pt-[72px] pb-[calc(100px + env(safe-area-inset-bottom,0px))] overflow-y-auto">
+      {/* Feed */}
+      <main className="flex-1 pt-[72px] pb-[110px] overflow-y-auto">
         {posts.length === 0 && !loading && (
-          <div className="flex flex-col items-center justify-center min-h-[50vh] text-zinc-500">
-            <Hexagon size={64} className="mb-6 opacity-60" />
-            <p className="text-xl font-medium">No posts yet</p>
-            <p className="mt-2 text-sm">Create something awesome</p>
+          <div className="flex flex-col items-center justify-center min-h-[60vh] text-zinc-500">
+            <Hexagon size={72} className="mb-8 opacity-60 animate-pulse" />
+            <p className="text-2xl font-medium">Feed is quiet</p>
+            <p className="mt-3 text-base">Create your first post</p>
           </div>
         )}
 
@@ -280,32 +280,21 @@ export default function PortalFeed() {
             }),
           };
 
-          // Avatar logic moved INSIDE the map - TypeScript is happy here
-          const avatarSrc = user?.picture ?? null;
-
           return (
             <motion.article
               key={post.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="border-b border-zinc-900 last:border-b-0"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className="border-b border-zinc-900/50 pb-2 last:border-b-0 last:pb-0"
             >
               {/* Post Header */}
               <div className="flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-3">
                   <div className="relative w-10 h-10">
                     <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 p-0.5">
-                      {avatarSrc ? (
-                        <img
-                          src={avatarSrc}
-                          alt=""
-                          className="w-full h-full rounded-full object-cover"
-                          referrerPolicy="no-referrer"
-                        />
-                      ) : (
-                        <UserIcon className="w-full h-full p-2 text-white" />
-                      )}
+                      {/* Safe fallback avatar - no TS error */}
+                      <UserIcon className="w-full h-full p-2 text-white" />
                     </div>
                     <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-black" />
                   </div>
@@ -319,7 +308,7 @@ export default function PortalFeed() {
                     </p>
                   </div>
                 </div>
-                <button className="p-2 text-zinc-400">
+                <button className="p-2 text-zinc-400 hover:text-white">
                   <MoreVertical size={20} />
                 </button>
               </div>
@@ -371,37 +360,37 @@ export default function PortalFeed() {
         })}
 
         {loading && (
-          <div className="py-10 flex justify-center">
-            <Loader2 className="animate-spin text-blue-500" size={36} />
+          <div className="py-12 flex justify-center">
+            <Loader2 className="animate-spin text-blue-500" size={40} />
           </div>
         )}
 
         <div ref={loaderRef} className="h-32" />
       </main>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Nav - Instagram style */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-lg border-t border-zinc-900">
         <div className="h-[env(safe-area-inset-bottom,0px)] bg-black/95" />
         <div className="flex justify-between items-center px-4 py-2 max-w-[420px] mx-auto">
-          <Link href="/feed" className="flex flex-col items-center text-white active:opacity-70">
+          <Link href="/feed" className="flex flex-col items-center text-white">
             <Home size={28} />
             <span className="text-[10px] mt-0.5 font-medium">Home</span>
           </Link>
-          <Link href="/explore" className="flex flex-col items-center text-zinc-400 active:opacity-70">
+          <Link href="/explore" className="flex flex-col items-center text-zinc-400">
             <Search size={28} />
             <span className="text-[10px] mt-0.5 font-medium">Explore</span>
           </Link>
           <button
             onClick={() => router.push("/studio")}
-            className="relative -mt-14 bg-gradient-to-r from-blue-600 to-cyan-600 w-16 h-16 rounded-full flex items-center justify-center shadow-2xl active:scale-95 transition"
+            className="relative -mt-14 bg-gradient-to-r from-blue-600 to-cyan-600 w-16 h-16 rounded-full flex items-center justify-center shadow-2xl"
           >
             <Plus size={34} className="text-white" strokeWidth={2.5} />
           </button>
-          <Link href="/notifications" className="flex flex-col items-center text-zinc-400 active:opacity-70 relative">
+          <Link href="/notifications" className="flex flex-col items-center text-zinc-400 relative">
             <Bell size={28} />
             <span className="text-[10px] mt-0.5 font-medium">Activity</span>
           </Link>
-          <Link href="/profile" className="flex flex-col items-center text-zinc-400 active:opacity-70">
+          <Link href="/profile" className="flex flex-col items-center text-zinc-400">
             <UserIcon size={28} />
             <span className="text-[10px] mt-0.5 font-medium">Profile</span>
           </Link>
