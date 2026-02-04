@@ -280,6 +280,9 @@ export default function PortalFeed() {
             }),
           };
 
+          // Extract avatar source to avoid TS error
+          const avatarSrc = user?.picture ?? null;
+
           return (
             <motion.article
               key={post.id}
@@ -293,9 +296,9 @@ export default function PortalFeed() {
                 <div className="flex items-center gap-3">
                   <div className="relative w-10 h-10">
                     <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 p-0.5">
-                      {user?.picture ? (
+                      {avatarSrc ? (
                         <img
-                          src={user.picture as string} // ← FIXED: type assertion
+                          src={avatarSrc}
                           alt=""
                           className="w-full h-full rounded-full object-cover"
                           referrerPolicy="no-referrer"
