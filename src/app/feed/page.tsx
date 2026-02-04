@@ -280,7 +280,7 @@ export default function PortalFeed() {
             }),
           };
 
-          // Extract avatar source to avoid TS error
+          // Avatar logic moved INSIDE the map - TypeScript is happy here
           const avatarSrc = user?.picture ?? null;
 
           return (
