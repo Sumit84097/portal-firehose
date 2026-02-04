@@ -157,10 +157,8 @@ import {
   MessageCircle,
   Share2,
   Diamond,
-  Play,
   User as UserIcon,
   Loader2,
-  CheckCircle2,
   Hexagon,
   Home,
   Compass,
@@ -185,20 +183,13 @@ export default function PortalFeed() {
 
   const fetchPosts = async (afterId?: string | null) => {
     if (!hasMore) return;
-
     setLoading(true);
-
     try {
-      const result = await getShieldedFeed({
-        limit: 10,
-        afterId,
-      });
-
+      const result = await getShieldedFeed({ limit: 8, afterId });
       if (!result.success || !result.data?.length) {
         setHasMore(false);
         return;
       }
-
       setPosts((prev) => [...prev, ...result.data]);
     } catch (err) {
       console.error("Feed fetch failed:", err);
@@ -209,14 +200,11 @@ export default function PortalFeed() {
   };
 
   useEffect(() => {
-    if (ready && authenticated) {
-      fetchPosts();
-    }
+    if (ready && authenticated) fetchPosts();
   }, [ready, authenticated]);
 
   useEffect(() => {
     if (!loaderRef.current || !hasMore) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !loading) {
@@ -224,61 +212,58 @@ export default function PortalFeed() {
           fetchPosts(lastId);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.2, rootMargin: "400px" }
     );
-
     observer.observe(loaderRef.current);
     return () => observer.disconnect();
   }, [posts, hasMore, loading]);
 
   useEffect(() => {
-    if (ready && !authenticated) {
-      router.push("/");
-    }
+    if (ready && !authenticated) router.push("/");
   }, [ready, authenticated, router]);
 
   if (!ready) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 flex items-center justify-center">
-        <Loader2 className="animate-spin text-blue-400" size={48} />
+      <div className="min-h-[100dvh] bg-black flex items-center justify-center">
+        <Loader2 className="animate-spin text-blue-500" size={48} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-gray-950 text-white pb-safe">
-      {/* Top Bar */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-blue-900/30 px-4 py-3">
-        <div className="flex items-center justify-between max-w-screen-md mx-auto">
-          <div className="flex items-center gap-3">
-            <Hexagon className="text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" size={32} />
-            <span className="text-2xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+    <div className="flex flex-col min-h-[100dvh] bg-black text-white overscroll-y-contain">
+      {/* Fixed Top Header - your branding stays here */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-zinc-900 px-3 py-3">
+        <div className="flex items-center justify-between max-w-[420px] mx-auto">
+          <div className="flex items-center gap-2">
+            <Hexagon className="text-blue-500" size={26} />
+            <span className="text-xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               PORTAL
             </span>
           </div>
-          <div className="flex items-center gap-5">
-            <button className="text-blue-300 hover:text-white transition-colors">
+          <div className="flex items-center gap-4">
+            <button className="p-1.5 text-zinc-300 hover:text-white">
               <Search size={24} />
             </button>
-            <button className="text-blue-300 hover:text-white transition-colors relative">
+            <button className="p-1.5 text-zinc-300 hover:text-white relative">
               <Bell size={24} />
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></span>
+              <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full" />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Feed – cinematic, immersive */}
-      <main className="pt-20 px-0 max-w-screen-md mx-auto space-y-10">
+      {/* Main Feed Content */}
+      <main className="flex-1 pt-[72px] pb-[calc(100px + env(safe-area-inset-bottom,0px))] overflow-y-auto">
         {posts.length === 0 && !loading && (
-          <div className="text-center py-32 text-slate-400">
-            <Hexagon size={64} className="mx-auto mb-6 opacity-40 animate-pulse" />
-            <p className="text-xl font-medium">The feed is quiet...</p>
-            <p className="mt-2">Create your first moment</p>
+          <div className="flex flex-col items-center justify-center min-h-[50vh] text-zinc-500">
+            <Hexagon size={64} className="mb-6 opacity-60" />
+            <p className="text-xl font-medium">No posts yet</p>
+            <p className="mt-2 text-sm">Create something awesome</p>
           </div>
         )}
 
-        {posts.map((post) => {
+        {posts.map((post, index) => {
           const isVideo = post.media_type?.startsWith("video") ||
                           post.content_url?.toLowerCase().endsWith('.mp4') ||
                           post.content_url?.toLowerCase().endsWith('.mov');
@@ -288,126 +273,134 @@ export default function PortalFeed() {
             handle: post.author_did?.slice(-8) || "@unknown",
             avatar: post.author_avatar || null,
             verified: true,
-            time: new Date(post.created_at).toLocaleString([], { hour: 'numeric', minute: '2-digit', hour12: true })
+            time: new Date(post.created_at).toLocaleString([], {
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            }),
           };
 
           return (
-            <motion.div
+            <motion.article
               key={post.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="glass-post"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+              className="border-b border-zinc-900 last:border-b-0"
             >
-              {/* Header */}
+              {/* Post Header - Instagram style */}
               <div className="flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 p-0.5">
-                      {user?.picture ? (  // ← FIXED: use top-level user.picture (from Google login)
+                  <div className="relative w-10 h-10">
+                    <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 p-0.5">
+                      {user?.picture ? (
                         <img
                           src={user.picture}
-                          alt="Profile"
+                          alt=""
                           className="w-full h-full rounded-full object-cover"
-                          referrerPolicy="no-referrer"  // Prevents Google referrer blocking
+                          referrerPolicy="no-referrer"
                         />
                       ) : (
-                        <UserIcon className="w-full h-full p-2 text-blue-200" />
+                        <UserIcon className="w-full h-full p-2 text-white" />
                       )}
                     </div>
-                    <div className="online-dot" />
+                    <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-black" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-bold text-white">{author.name}</h3>
-                      {author.verified && <span className="verified-pill">Verified</span>}
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-medium text-base">{author.name}</span>
+                      {author.verified && <span className="text-blue-400 text-xs">✓</span>}
                     </div>
-                    <p className="text-sm text-zinc-500">{author.handle} • {author.time}</p>
+                    <p className="text-xs text-zinc-500">
+                      {author.handle} · {author.time}
+                    </p>
                   </div>
                 </div>
-                <button className="text-zinc-500 hover:text-white">
+                <button className="p-2 text-zinc-400">
                   <MoreVertical size={20} />
                 </button>
               </div>
 
-              {/* Caption if exists */}
               {post.caption && (
-                <p className="px-4 pb-3 text-white">{post.caption}</p>
+                <p className="px-4 pb-2 text-[15px] leading-relaxed">{post.caption}</p>
               )}
 
-              {/* Media – full bleed */}
               {post.signed_url && (
-                <div className="media-full-bleed aspect-[4/5] overflow-hidden">
+                <div className="bg-black">
                   {isVideo ? (
                     <video
                       src={post.signed_url}
                       controls
-                      className="w-full h-full object-cover"
                       playsInline
-                    >
-                      <source src={post.signed_url} type={post.media_type || "video/mp4"} />
-                    </video>
+                      className="w-full h-auto max-h-[80vh] object-contain"
+                    />
                   ) : (
                     <img
                       src={post.signed_url}
-                      alt={post.caption || "Post"}
-                      className="w-full h-full object-cover"
+                      alt=""
+                      className="w-full h-auto object-contain"
+                      loading="lazy"
                     />
                   )}
                 </div>
               )}
 
-              {/* Actions */}
-              <div className="action-pill">
-                <div className="flex items-center gap-6">
-                  <button className="flex items-center gap-2 text-zinc-300 hover:text-red-400">
-                    <Heart size={22} />
-                    <span className="font-medium">24</span>
+              <div className="flex items-center justify-between px-5 py-3">
+                <div className="flex gap-10">
+                  <button className="flex items-center gap-1.5 text-zinc-300 hover:text-red-400">
+                    <Heart size={26} />
+                    <span className="text-sm">0</span>
                   </button>
-                  <button className="flex items-center gap-2 text-zinc-300 hover:text-blue-400">
-                    <MessageCircle size={22} />
-                    <span className="font-medium">8</span>
+                  <button className="flex items-center gap-1.5 text-zinc-300 hover:text-blue-400">
+                    <MessageCircle size={26} />
+                    <span className="text-sm">0</span>
                   </button>
-                  <button className="flex items-center gap-2 text-zinc-300 hover:text-green-400">
-                    <Share2 size={22} />
+                  <button className="flex items-center gap-1.5 text-zinc-300 hover:text-green-400">
+                    <Share2 size={26} />
                   </button>
                 </div>
                 <button className="text-zinc-300 hover:text-amber-400">
-                  <Diamond size={22} />
+                  <Diamond size={26} />
                 </button>
               </div>
-            </motion.div>
+            </motion.article>
           );
         })}
 
         {loading && (
-          <div className="flex justify-center py-8">
-            <Loader2 className="animate-spin text-blue-400" size={32} />
+          <div className="py-10 flex justify-center">
+            <Loader2 className="animate-spin text-blue-500" size={36} />
           </div>
         )}
 
-        <div ref={loaderRef} className="h-10" />
+        <div ref={loaderRef} className="h-32" />
       </main>
 
-      {/* Bottom Nav */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-t border-blue-900/30 py-2">
-        <div className="flex justify-around max-w-screen-md mx-auto">
-          <Link href="/feed" className="flex flex-col items-center text-blue-300">
+      {/* Bottom Navigation - Instagram style: fixed at bottom, icons + labels, big centered + */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-lg border-t border-zinc-900">
+        <div className="h-[env(safe-area-inset-bottom,0px)] bg-black/95" />
+        <div className="flex justify-between items-center px-4 py-2 max-w-[420px] mx-auto">
+          <Link href="/feed" className="flex flex-col items-center text-white active:opacity-70">
             <Home size={28} />
+            <span className="text-[10px] mt-0.5 font-medium">Home</span>
           </Link>
-          <Link href="/explore" className="flex flex-col items-center text-zinc-500 hover:text-white">
-            <Compass size={28} />
+          <Link href="/explore" className="flex flex-col items-center text-zinc-400 active:opacity-70">
+            <Search size={28} />
+            <span className="text-[10px] mt-0.5 font-medium">Explore</span>
           </Link>
           <button
             onClick={() => router.push("/studio")}
-            className="glow-plus -mt-6 w-16 h-16 rounded-full flex items-center justify-center text-white"
+            className="relative -mt-14 bg-gradient-to-r from-blue-600 to-cyan-600 w-16 h-16 rounded-full flex items-center justify-center shadow-2xl active:scale-95 transition"
           >
-            <Plus size={32} />
+            <Plus size={34} className="text-white" strokeWidth={2.5} />
           </button>
-          <Link href="/notifications" className="flex flex-col items-center text-zinc-500 hover:text-white relative">
+          <Link href="/notifications" className="flex flex-col items-center text-zinc-400 active:opacity-70 relative">
             <Bell size={28} />
+            <span className="text-[10px] mt-0.5 font-medium">Activity</span>
           </Link>
-          <Link href="/profile" className="flex flex-col items-center text-zinc-500 hover:text-white">
+          <Link href="/profile" className="flex flex-col items-center text-zinc-400 active:opacity-70">
             <UserIcon size={28} />
+            <span className="text-[10px] mt-0.5 font-medium">Profile</span>
           </Link>
         </div>
       </nav>
