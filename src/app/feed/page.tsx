@@ -161,9 +161,8 @@ import {
   Loader2,
   Hexagon,
   Home,
-  Compass,
-  Bell,
   Search,
+  Bell,
   MoreVertical,
   Plus,
 } from "lucide-react";
@@ -232,7 +231,7 @@ export default function PortalFeed() {
 
   return (
     <div className="flex flex-col min-h-[100dvh] bg-black text-white overscroll-y-contain">
-      {/* Fixed Top Header - your branding stays here */}
+      {/* Fixed Top Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-zinc-900 px-3 py-3">
         <div className="flex items-center justify-between max-w-[420px] mx-auto">
           <div className="flex items-center gap-2">
@@ -264,9 +263,10 @@ export default function PortalFeed() {
         )}
 
         {posts.map((post, index) => {
-          const isVideo = post.media_type?.startsWith("video") ||
-                          post.content_url?.toLowerCase().endsWith('.mp4') ||
-                          post.content_url?.toLowerCase().endsWith('.mov');
+          const isVideo =
+            post.media_type?.startsWith("video") ||
+            post.content_url?.toLowerCase().endsWith(".mp4") ||
+            post.content_url?.toLowerCase().endsWith(".mov");
 
           const author = {
             name: post.author_name || "Anonymous",
@@ -288,14 +288,14 @@ export default function PortalFeed() {
               transition={{ duration: 0.3, delay: index * 0.05 }}
               className="border-b border-zinc-900 last:border-b-0"
             >
-              {/* Post Header - Instagram style */}
+              {/* Post Header */}
               <div className="flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-3">
                   <div className="relative w-10 h-10">
                     <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 p-0.5">
                       {user?.picture ? (
                         <img
-                          src={user.picture}
+                          src={user.picture as string} // ← FIXED: type assertion
                           alt=""
                           className="w-full h-full rounded-full object-cover"
                           referrerPolicy="no-referrer"
@@ -376,7 +376,7 @@ export default function PortalFeed() {
         <div ref={loaderRef} className="h-32" />
       </main>
 
-      {/* Bottom Navigation - Instagram style: fixed at bottom, icons + labels, big centered + */}
+      {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-lg border-t border-zinc-900">
         <div className="h-[env(safe-area-inset-bottom,0px)] bg-black/95" />
         <div className="flex justify-between items-center px-4 py-2 max-w-[420px] mx-auto">
